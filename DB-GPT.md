@@ -421,6 +421,8 @@ cp .env.template .env
 
 切换模型，只需要修改环境变量`.env`文件，但是要注意对应关系。
 
+比如配置`baichuan-13b`，不能配置`Baichuan-13B-Chat`，否则会出现模型加载异常。
+
 ```sh
 LLM_MODEL_CONFIG = {
     "flan-t5-base": os.path.join(MODEL_PATH, "flan-t5-base"),
