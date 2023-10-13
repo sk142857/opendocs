@@ -85,6 +85,8 @@ ln -s /root/autodl-tmp/models/* /root/DB-GPT/models/
 
 - 准备模型数据
 
+#### 默认模型
+
 我们当前使用的镜像`csunny/DB-GPT/autodl_DB-GPT`，在`~/DB-GPT/models`目录，存放了默认的模型数据，分别是：
 
 ```sh
@@ -96,8 +98,56 @@ text2vec-large-chinese
 
 为了快速体验`GB-GPT`，我们直接使用默认的模型即可。
 
+#### 自定义模型
+
+目前支持的模型有：
+
+![image](https://github.com/sk142857/opendocs/assets/75599950/c2abc745-f4e4-4360-9e4c-5a4b6af494bc)
+
+小编这里使用`baichuan-inc/Baichuan-13B-Chat`模型：
+
+![image](https://github.com/sk142857/opendocs/assets/75599950/ce9b7c09-d46b-4fc7-a0d6-7101216d0543)
+
+下载方式一（使用LFS）：
+
+```sh
+# 操作简单，但是有可能速度较慢
+git lfs clone https://huggingface.co/baichuan-inc/Baichuan-13B-Chat
+```
+
+下载方式二（手动下载）：
+
+```sh
+# 如果 git lfs 下载速度太慢，可以考虑手动下载。注意设置学术资源加速！
+
+# config
+wget https://huggingface.co/baichuan-inc/Baichuan2-13B-Chat/resolve/main/config.json
+wget https://huggingface.co/baichuan-inc/Baichuan2-13B-Chat/resolve/main/configuration_baichuan.py
+wget https://huggingface.co/baichuan-inc/Baichuan2-13B-Chat/resolve/main/generation_config.json
+wget https://huggingface.co/baichuan-inc/Baichuan2-13B-Chat/resolve/main/generation_utils.py
+wget https://huggingface.co/baichuan-inc/Baichuan2-13B-Chat/resolve/main/handler.py
+wget https://huggingface.co/baichuan-inc/Baichuan2-13B-Chat/resolve/main/modeling_baichuan.py
+wget https://huggingface.co/baichuan-inc/Baichuan2-13B-Chat/resolve/main/pytorch_model.bin.index.json
+wget https://huggingface.co/baichuan-inc/Baichuan2-13B-Chat/resolve/main/quantizer.py
+wget https://huggingface.co/baichuan-inc/Baichuan2-13B-Chat/resolve/main/special_tokens_map.json
+wget https://huggingface.co/baichuan-inc/Baichuan2-13B-Chat/resolve/main/tokenization_baichuan.py
+wget https://huggingface.co/baichuan-inc/Baichuan2-13B-Chat/resolve/main/tokenizer.model
+wget https://huggingface.co/baichuan-inc/Baichuan2-13B-Chat/resolve/main/tokenizer_config.json
+
+# models
+wget https://huggingface.co/baichuan-inc/Baichuan-13B-Chat/resolve/main/pytorch_model-00001-of-00003.bin
+wget https://huggingface.co/baichuan-inc/Baichuan-13B-Chat/resolve/main/pytorch_model-00002-of-00003.bin
+wget https://huggingface.co/baichuan-inc/Baichuan-13B-Chat/resolve/main/pytorch_model-00003-of-00003.bin
+```
+
 - 激活虚拟环境
 
+```sh
+python>=3.10
+conda create -n dbgpt_env python=3.10
+conda activate dbgpt_env
+pip install -e ".[default]"
+```
 ```sh
 # activate dbgpt
 conda activate dbgpt
@@ -328,4 +378,42 @@ Loading checkpoint shards: 100%|████████████████
 ```sh
 docker run --name=mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=aa12345678 -dit mysql:latest
 ```
+### 附录二 官方镜像
 
+区别没有什么，就是需要手动配置一些信息以及下载镜像文件等。
+
+参考文档：https://db-gpt.readthedocs.io/en/latest/getting_started/install/deploy/deploy.html
+
+#### 安装
+
+- 基础环境
+
+```sh
+git clone https://github.com/eosphoros-ai/DB-GPT.git
+```
+
+```sh
+python>=3.10
+conda create -n dbgpt_env python=3.10
+conda activate dbgpt_env
+pip install -e ".[default]"
+```
+- 下载text2vec-large-chinese
+
+![image](https://github.com/sk142857/opendocs/assets/75599950/69c6cb26-41d9-413c-81d1-bc83f54382ac)
+
+```sh
+#  config
+git clone https://huggingface.co/GanymedeNil/text2vec-large-chinese
+
+# model.safetensors
+wget https://huggingface.co/GanymedeNil/text2vec-large-chinese/resolve/main/model.safetensors
+
+# pytorch_model.bin
+wget https://huggingface.co/GanymedeNil/text2vec-large-chinese/resolve/main/pytorch_model.bin
+```
+- 拷贝env配置文件
+
+```sh
+cp .env.template .env
+```
