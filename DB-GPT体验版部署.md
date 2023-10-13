@@ -336,31 +336,8 @@ python pilot/server/dbgpt_server.py  --port 6006
 ```
 > `6006`为`Autodl`提供用于自定义服务访问的端口，具体可以根据不同的平台切换
 
-```sh
-2023-10-13 11:48:27 | INFO | stdout |  
-2023-10-13 11:48:27 | INFO | stdout | Plugins found: 2
-2023-10-13 11:48:27 | INFO | stdout | --------------------
-2023-10-13 11:48:27 | INFO | LOGGER | 
-Plugins found: 2
---------------------
-2023-10-13 11:48:27 | INFO | stdout |   DB-GPT-DASHBOARD-Plugin: 0.1.0 - This is an DbGPT plugin to generate data analysis charts.
-2023-10-13 11:48:27 | INFO | LOGGER | DB-GPT-DASHBOARD-Plugin: 0.1.0 - This is an DbGPT plugin to generate data analysis charts.
-2023-10-13 11:48:27 | INFO | stdout |   DB-GPT-SQL-Execution-Plugin: 0.1.0 - This is an DbGPT plugin to connect Generic Db And Execute SQL.
-2023-10-13 11:48:27 | INFO | LOGGER | DB-GPT-SQL-Execution-Plugin: 0.1.0 - This is an DbGPT plugin to connect Generic Db And Execute SQL.
-Loading checkpoint shards:  29%|████████████████████▎                                                  | 2/7 [00:04<00:10,  2.13s/it]
-Loading checkpoint shards:  43%|██████████████████████████████▍                                        | 3/7 [00:06<00:08,  2.05s/it]
-Loading checkpoint shards:  57%|████████████████████████████████████████▌                              | 4/7 [00:07<00:05,  1.88s/it]
-Loading checkpoint shards:  71%|██████████████████████████████████████████████████▋                    | 5/7 [00:09<00:03,  1.74s/it]
-Loading checkpoint shards:  86%|████████████████████████████████████████████████████████████▊          | 6/7 [00:10<00:01,  1.68s/it]
-Loading checkpoint shards: 100%|███████████████████████████████████████████████████████████████████████| 7/7 [00:11<00:00,  1.43s/it]
-Loading checkpoint shards: 100%|███████████████████████████████████████████████████████████████████████| 7/7 [00:11<00:00,  1.69s/it]
-2023-10-13 11:48:35 | ERROR | stderr | 
-2023-10-13 11:48:39 | INFO | stdout | LLM Model Loading Success！
-2023-10-13 11:48:39 | ERROR | stderr | INFO:     Started server process [1585]
-2023-10-13 11:48:39 | ERROR | stderr | INFO:     Waiting for application startup.
-2023-10-13 11:48:39 | ERROR | stderr | INFO:     Application startup complete.
-2023-10-13 11:48:39 | ERROR | stderr | INFO:     Uvicorn running on http://0.0.0.0:6006 (Press CTRL+C to quit)
-```
+![image](https://github.com/sk142857/opendocs/assets/75599950/8daa58b2-36a9-4366-a83e-a7dc8ba7a3c4)
+
 ### 暴露服务
 
 回到`Autodl`容器实例列表，选中【服务所在实例】，点击【自定义服务】，即可获得对外访问地址。
@@ -369,7 +346,7 @@ Loading checkpoint shards: 100%|████████████████
 
 类似：https://u124467-****.westa.seetacloud.com:8443/
 
-![image](https://github.com/sk142857/opendocs/assets/75599950/3585c462-6965-4597-91ae-3d2548eea3e0)
+![image](https://github.com/sk142857/opendocs/assets/75599950/eb5af77a-b4ef-4894-a25c-909b174bb2ff)
 
 ### 附录一 数据库连接
 
