@@ -417,3 +417,54 @@ wget https://huggingface.co/GanymedeNil/text2vec-large-chinese/resolve/main/pyto
 ```sh
 cp .env.template .env
 ```
+- 切换模型
+
+切换模型，只需要修改环境变量`.env`文件，但是要注意对应关系。
+
+```sh
+LLM_MODEL_CONFIG = {
+    "flan-t5-base": os.path.join(MODEL_PATH, "flan-t5-base"),
+    "vicuna-13b": os.path.join(MODEL_PATH, "vicuna-13b"),
+    "vicuna-7b": os.path.join(MODEL_PATH, "vicuna-7b"),
+    # (Llama2 based) see https://huggingface.co/lmsys/vicuna-13b-v1.5
+    "vicuna-13b-v1.5": os.path.join(MODEL_PATH, "vicuna-13b-v1.5"),
+    "vicuna-7b-v1.5": os.path.join(MODEL_PATH, "vicuna-7b-v1.5"),
+    "codegen2-1b": os.path.join(MODEL_PATH, "codegen2-1B"),
+    "codet5p-2b": os.path.join(MODEL_PATH, "codet5p-2b"),
+    "chatglm-6b-int4": os.path.join(MODEL_PATH, "chatglm-6b-int4"),
+    "chatglm-6b": os.path.join(MODEL_PATH, "chatglm-6b"),
+    "chatglm2-6b": os.path.join(MODEL_PATH, "chatglm2-6b"),
+    "chatglm2-6b-int4": os.path.join(MODEL_PATH, "chatglm2-6b-int4"),
+    "guanaco-33b-merged": os.path.join(MODEL_PATH, "guanaco-33b-merged"),
+    "falcon-40b": os.path.join(MODEL_PATH, "falcon-40b"),
+    "gorilla-7b": os.path.join(MODEL_PATH, "gorilla-7b"),
+    "gptj-6b": os.path.join(MODEL_PATH, "ggml-gpt4all-j-v1.3-groovy.bin"),
+    "proxyllm": "chatgpt_proxyllm",
+    "chatgpt_proxyllm": "chatgpt_proxyllm",
+    "bard_proxyllm": "bard_proxyllm",
+    "claude_proxyllm": "claude_proxyllm",
+    "wenxin_proxyllm": "wenxin_proxyllm",
+    "tongyi_proxyllm": "tongyi_proxyllm",
+    "zhipu_proxyllm": "zhipu_proxyllm",
+    "llama-2-7b": os.path.join(MODEL_PATH, "Llama-2-7b-chat-hf"),
+    "llama-2-13b": os.path.join(MODEL_PATH, "Llama-2-13b-chat-hf"),
+    "llama-2-70b": os.path.join(MODEL_PATH, "Llama-2-70b-chat-hf"),
+    "baichuan-13b": os.path.join(MODEL_PATH, "Baichuan-13B-Chat"),
+    # please rename "fireballoon/baichuan-vicuna-chinese-7b" to "baichuan-7b"
+    "baichuan-7b": os.path.join(MODEL_PATH, "baichuan-7b"),
+    "baichuan2-7b": os.path.join(MODEL_PATH, "Baichuan2-7B-Chat"),
+    "baichuan2-13b": os.path.join(MODEL_PATH, "Baichuan2-13B-Chat"),
+    # (Llama2 based) We only support WizardLM-13B-V1.2 for now, which is trained from Llama-2 13b, see https://huggingface.co/WizardLM/WizardLM-13B-V1.2
+    "wizardlm-13b": os.path.join(MODEL_PATH, "WizardLM-13B-V1.2"),
+    # wget https://huggingface.co/TheBloke/vicuna-13B-v1.5-GGUF/resolve/main/vicuna-13b-v1.5.Q4_K_M.gguf -O models/ggml-model-q4_0.gguf
+    "llama-cpp": os.path.join(MODEL_PATH, "ggml-model-q4_0.gguf"),
+    # https://huggingface.co/internlm/internlm-chat-7b-v1_1, 7b vs 7b-v1.1: https://github.com/InternLM/InternLM/issues/288
+    "internlm-7b": os.path.join(MODEL_PATH, "internlm-chat-7b"),
+    "internlm-7b-8k": os.path.join(MODEL_PATH, "internlm-chat-7b-8k"),
+    "internlm-20b": os.path.join(MODEL_PATH, "internlm-20b-chat"),
+    # For test now
+    "opt-125m": os.path.join(MODEL_PATH, "opt-125m"),
+}
+```
+
+- 启动服务
