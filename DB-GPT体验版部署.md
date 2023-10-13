@@ -394,7 +394,7 @@ wget https://huggingface.co/GanymedeNil/text2vec-large-chinese/resolve/main/pyto
 ```sh
 cp .env.template .env
 ```
-- 切换模型
+### 附录 切换模型
 
 切换模型，只需要修改环境变量`.env`文件，但是要注意对应关系。
 
@@ -445,5 +445,3 @@ LLM_MODEL_CONFIG = {
     "opt-125m": os.path.join(MODEL_PATH, "opt-125m"),
 }
 ```
-
-- 启动服务
