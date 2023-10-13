@@ -73,11 +73,15 @@ GPU ：NVIDIA GeForce RTX 4090, 1
   文件存储/root/autodl-fs ：未挂载
 +----------------------------------------------------------------------------------------------------------------+
 ```
-### 启动 GB-GPT
+### 启动 DB-GPT
 
-- 注意目录调整
+- 创建软链接
 
-查看目录大小占用发现，`DB-GPT`已经占用系统盘`70%`的空间，`Autodl`系统盘默认只有30个G，而且不支持扩容。所以，建议把`DB-GPT`目录，移动到`/root/autodl-tmp`目录。
+系统盘空间有限，建议对 `/root/autodl-tmp/models/*` 创建软链接
+
+```sh
+ln -s /root/autodl-tmp/models/* /root/DB-GPT/models/
+```
 
 - 准备模型数据
 
@@ -273,6 +277,8 @@ pip install -r requirements.txt -i https://pypi.mirrors.ustc.edu.cn/simple/
 ```
 > 速度极快，建议设置为默认加速
 
+![image](https://github.com/sk142857/opendocs/assets/75599950/3bb00972-db92-4a54-b5c9-3dfed078e058)
+
 - 启动服务
 
 ```sh
@@ -280,4 +286,42 @@ python pilot/server/dbgpt_server.py  --port 6006
 ```
 > `6006`为`Autodl`提供用于自定义服务访问的端口，具体可以根据不同的平台切换
 
+```sh
+2023-10-13 11:48:27 | INFO | stdout |  
+2023-10-13 11:48:27 | INFO | stdout | Plugins found: 2
+2023-10-13 11:48:27 | INFO | stdout | --------------------
+2023-10-13 11:48:27 | INFO | LOGGER | 
+Plugins found: 2
+--------------------
+2023-10-13 11:48:27 | INFO | stdout |   DB-GPT-DASHBOARD-Plugin: 0.1.0 - This is an DbGPT plugin to generate data analysis charts.
+2023-10-13 11:48:27 | INFO | LOGGER | DB-GPT-DASHBOARD-Plugin: 0.1.0 - This is an DbGPT plugin to generate data analysis charts.
+2023-10-13 11:48:27 | INFO | stdout |   DB-GPT-SQL-Execution-Plugin: 0.1.0 - This is an DbGPT plugin to connect Generic Db And Execute SQL.
+2023-10-13 11:48:27 | INFO | LOGGER | DB-GPT-SQL-Execution-Plugin: 0.1.0 - This is an DbGPT plugin to connect Generic Db And Execute SQL.
+Loading checkpoint shards:  29%|████████████████████▎                                                  | 2/7 [00:04<00:10,  2.13s/it]
+Loading checkpoint shards:  43%|██████████████████████████████▍                                        | 3/7 [00:06<00:08,  2.05s/it]
+Loading checkpoint shards:  57%|████████████████████████████████████████▌                              | 4/7 [00:07<00:05,  1.88s/it]
+Loading checkpoint shards:  71%|██████████████████████████████████████████████████▋                    | 5/7 [00:09<00:03,  1.74s/it]
+Loading checkpoint shards:  86%|████████████████████████████████████████████████████████████▊          | 6/7 [00:10<00:01,  1.68s/it]
+Loading checkpoint shards: 100%|███████████████████████████████████████████████████████████████████████| 7/7 [00:11<00:00,  1.43s/it]
+Loading checkpoint shards: 100%|███████████████████████████████████████████████████████████████████████| 7/7 [00:11<00:00,  1.69s/it]
+2023-10-13 11:48:35 | ERROR | stderr | 
+2023-10-13 11:48:39 | INFO | stdout | LLM Model Loading Success！
+2023-10-13 11:48:39 | ERROR | stderr | INFO:     Started server process [1585]
+2023-10-13 11:48:39 | ERROR | stderr | INFO:     Waiting for application startup.
+2023-10-13 11:48:39 | ERROR | stderr | INFO:     Application startup complete.
+2023-10-13 11:48:39 | ERROR | stderr | INFO:     Uvicorn running on http://0.0.0.0:6006 (Press CTRL+C to quit)
+```
+### 暴露服务
+
+回到`Autodl`容器实例列表，选中【服务所在实例】，点击【自定义服务】，即可获得对外访问地址。
+
+![image](https://github.com/sk142857/opendocs/assets/75599950/a6118915-764c-4174-b72c-7da982880d32)
+
+类似：https://u124467-****.westa.seetacloud.com:8443/
+
+![image](https://github.com/sk142857/opendocs/assets/75599950/3585c462-6965-4597-91ae-3d2548eea3e0)
+
+### 附录一 数据库连接
+
+如果启动服务的时候，提示`MySql`连接错误，那么就需要安装对应的`MySql`数据库。具体的配置信息，请参考`.env`。
 
