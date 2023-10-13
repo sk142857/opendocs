@@ -325,3 +325,7 @@ Loading checkpoint shards: 100%|████████████████
 
 如果启动服务的时候，提示`MySql`连接错误，那么就需要安装对应的`MySql`数据库。具体的配置信息，请参考`.env`。
 
+```sh
+docker run --name=mysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=aa12345678 -dit mysql:latest
+```
+
