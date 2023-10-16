@@ -1,4 +1,4 @@
-### 创建实例
+![image](https://github.com/sk142857/opendocs/assets/75599950/32b690cc-4d02-421a-8f65-f27fb960dbb5)### 创建实例
 
 - 配置
   
@@ -501,3 +501,54 @@ wandb: Find logs at: ./wandb/offline-run-20231010_080715-zgrjld6e/logs
 - 微调模型的使用
 
 具体参考`附录三 切换模型`，注意需要修改配置文件`/pilot/configs/model_config.LLM_MODEL_CONFIG` 和 `.env` 文件。
+
+### 附录五 微调对比VS
+
+#### 请问MySql有哪些事务特性？
+
+- 微调模型 Baichuan2-13B-lora
+
+```
+您好！在MySQL中，事务特性主要包括以下几点：
+
+原子性：事务中的所有操作要么全部成功，要么全部失败。
+一致性：事务必须满足数据库的完整性和并发性约束。
+隔离性：多个事务并发执行时，一个事务的中间状态对其他事务是不可见的。
+持久性：一旦事务成功完成并提交，对数据库的更改就永久保存。 总的来说，MySQL中的事务特性旨在确保数据的完整性和一致性。希望这些信息对您有所帮助！
+```
+#### 在使用mysql的时候，如何查看表是否被锁呢？比如表 t_staff
+
+- 微调模型 Baichuan2-13B-lora
+
+```
+要查看表t_staff是否被锁，可以使用SHOW OPEN TABLES LIKE '%t_staff'命令。如果表t_staff在列表中，则表示被锁。
+```
+#### 创建一张城市表，要求Schema信息如下：id,city_id,city_name,country,gmt_create,gmt_modify，并添加中文注释，请提供具体SQL语句。
+
+- 模型
+
+![image](https://github.com/sk142857/opendocs/assets/75599950/ea0b622d-2e7c-4dca-a4fb-c2601bf2aad2)
+
+- 微调模型
+
+![image](https://github.com/sk142857/opendocs/assets/75599950/a081f82a-2af2-4c3e-b540-cbda4adf8459)
+
+- OPENAI
+
+![image](https://github.com/sk142857/opendocs/assets/75599950/1bda01cc-c361-4309-a243-63b913d14fa2)
+
+#### 有两张表 t_user, t_order。t_user 字段包括 user_id, nick_name，t_order 字段包括 order_id, user_id 等。请检查 select u.* from t_user as u left join t_order as o on u.user_id = o.user_id 语句，如果要根据 order_id 条件查询，order_id 索引是否生效？如果不生效，请提供正确的SQL语句。
+
+- 模型Baichuan2-13B
+
+![image](https://github.com/sk142857/opendocs/assets/75599950/61c72d05-2b0e-4748-998f-e5ce50cdbd9f)
+
+![image](https://github.com/sk142857/opendocs/assets/75599950/b8097414-75dd-413d-91c3-1bda7f695552)
+
+- 微调模型 Baichuan2-13B-lora
+
+![image](https://github.com/sk142857/opendocs/assets/75599950/07b1430b-1c0f-4054-9f83-6acb3d7b8501)
+
+- OPENAI
+
+![image](https://github.com/sk142857/opendocs/assets/75599950/1f876ef0-4084-465b-a236-1a1a9cf2ca6e)
