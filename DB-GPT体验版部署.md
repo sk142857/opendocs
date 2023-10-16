@@ -552,3 +552,155 @@ wandb: Find logs at: ./wandb/offline-run-20231010_080715-zgrjld6e/logs
 - OPENAI
 
 ![image](https://github.com/sk142857/opendocs/assets/75599950/1f876ef0-4084-465b-a236-1a1a9cf2ca6e)
+
+##### 
+
+有以下两张表：
+```
+CREATE TABLE `articles` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL COMMENT '标题',
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `posts` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `status` tinyint(4) NOT NULL ,
+   `article_id` int(10) unsigned NOT NULL
+  PRIMARY KEY (`id`)
+) 
+
+```
+要在一条sql中查询出所有有帖子(posts)的文章(articles)的数量has_post_cnt、无帖子的文章数量not_post_cnt。
+
+- 模型Baichuan2-13B
+
+![image](https://github.com/sk142857/opendocs/assets/75599950/b715981e-2135-490c-97b8-98f33b4f3c3b)
+
+- OPENAI
+![image](https://github.com/sk142857/opendocs/assets/75599950/5db467cf-626e-4ff0-b9c9-36765aeda142)
+
+##### 问题
+
+现在有一个电子商务网站，有以下几个表：orders（订单信息）、order_items（订单中的商品条目）、products（商品信息）和customers（客户信息）。我希望统计每个客户的以下信息：
+
+每个客户的总订单数量。
+每个客户的总支出金额（订单总金额）。
+每个客户购买的不同商品数量。
+每个客户购买最多的商品的名称和数量。
+每个客户购买最多的商品的类别。
+
+请使用一条SQL语句将结果返回。
+
+```sql
+CREATE TABLE customers (
+  customer_id INT PRIMARY KEY,
+  customer_name VARCHAR(255)
+);
+CREATE TABLE orders (
+  order_id INT PRIMARY KEY,
+  customer_id INT,
+  order_date DATE,
+  FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);
+CREATE TABLE order_items (
+  order_item_id INT PRIMARY KEY,
+  order_id INT,
+  product_id INT,
+  price DECIMAL(10, 2),
+  quantity INT,
+  FOREIGN KEY (order_id) REFERENCES orders(order_id),
+  FOREIGN KEY (product_id) REFERENCES products(product_id)
+);
+CREATE TABLE products (
+  product_id INT PRIMARY KEY,
+  product_name VARCHAR(255),
+  product_category VARCHAR(255)
+);
+```
+
+- 模型Baichuan2-13B
+  
+```mysql
+SELECT
+	c.customer_id,
+	COUNT( o.order_id ) AS total_orders,
+	SUM( oi.quantity * oi.price ) AS total_spent,
+	COUNT(
+	DISTINCT ( oi.product_id )) AS unique_products,
+	MAX(
+	TO_NUMBER ( CONCAT( prod_name, prod_category ), 'MAX' )) AS most_purchased_product,
+	(
+	SELECT
+		COUNT(*) 
+	FROM
+		order_items oi2 
+	WHERE
+		oi2.customer_id = t.customer_id 
+		AND oi2.product_id = t.product_id 
+		AND oi2.quantity = t.quantity 
+	) AS most_purchased_product_count 
+FROM
+	(
+	SELECT DISTINCT
+		( c.customer_id ),
+		oi.product_id,
+		oi.quantity,
+		prod_name,
+		prod_category 
+	FROM
+		customers c
+		JOIN orders o ON c.customer_id = o.customer_id
+		JOIN order_items oi ON o.order_id = oi.order_id
+		JOIN products p ON oi.product_id = p.product_id 
+	) AS t 
+GROUP BY
+	c.customer_id;
+```
+- 微调模型Baichuan2-13B-lora
+
+```sql
+SELECT customer_id, count(), sum(price quantity) FROM order_items GROUP BY customer_id;
+```
+> 无法正常处理
+
+- OPENAI
+
+```sql
+SELECT
+  c.customer_id,
+  c.customer_name,
+  COUNT(o.order_id) AS total_orders,
+  SUM(oi.price * oi.quantity) AS total_spent,
+  COUNT(DISTINCT oi.product_id) AS distinct_products,
+  (
+    SELECT p.product_name
+    FROM products p
+    JOIN order_items oi2 ON p.product_id = oi2.product_id
+    WHERE oi2.order_id = (
+      SELECT order_id
+      FROM order_items oi3
+      WHERE oi3.order_id = o.order_id
+      GROUP BY oi3.order_id
+      ORDER BY SUM(oi3.quantity) DESC
+      LIMIT 1
+    )
+  ) AS most_purchased_product,
+  (
+    SELECT p.product_category
+    FROM products p
+    JOIN order_items oi2 ON p.product_id = oi2.product_id
+    WHERE oi2.order_id = (
+      SELECT order_id
+      FROM order_items oi3
+      WHERE oi3.order_id = o.order_id
+      GROUP BY oi3.order_id
+      ORDER BY SUM(oi3.quantity) DESC
+      LIMIT 1
+    )
+  ) AS most_purchased_category
+FROM customers c
+LEFT JOIN orders o ON c.customer_id = o.customer_id
+LEFT JOIN order_items oi ON o.order_id = oi.order_id
+GROUP BY c.customer_id, c.customer_name;
+```
