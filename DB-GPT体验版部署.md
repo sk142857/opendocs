@@ -1,4 +1,4 @@
-![image](https://github.com/sk142857/opendocs/assets/75599950/32b690cc-4d02-421a-8f65-f27fb960dbb5)### 创建实例
+### 创建实例
 
 - 配置
   
