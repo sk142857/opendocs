@@ -504,25 +504,6 @@ wandb: Find logs at: ./wandb/offline-run-20231010_080715-zgrjld6e/logs
 
 ### 附录五 微调对比VS
 
-#### 请问MySql有哪些事务特性？
-
-- 微调模型 Baichuan2-13B-lora
-
-```
-您好！在MySQL中，事务特性主要包括以下几点：
-
-原子性：事务中的所有操作要么全部成功，要么全部失败。
-一致性：事务必须满足数据库的完整性和并发性约束。
-隔离性：多个事务并发执行时，一个事务的中间状态对其他事务是不可见的。
-持久性：一旦事务成功完成并提交，对数据库的更改就永久保存。 总的来说，MySQL中的事务特性旨在确保数据的完整性和一致性。希望这些信息对您有所帮助！
-```
-#### 在使用mysql的时候，如何查看表是否被锁呢？比如表 t_staff
-
-- 微调模型 Baichuan2-13B-lora
-
-```
-要查看表t_staff是否被锁，可以使用SHOW OPEN TABLES LIKE '%t_staff'命令。如果表t_staff在列表中，则表示被锁。
-```
 #### 创建一张城市表，要求Schema信息如下：id,city_id,city_name,country,gmt_create,gmt_modify，并添加中文注释，请提供具体SQL语句。
 
 - 模型
