@@ -400,6 +400,8 @@ cp .env.template .env
 
 比如配置`baichuan-13b`，不能配置`Baichuan-13B-Chat`，否则会出现模型加载异常。
 
+如果需要修改，则配置`/pilot/configs/model_config.LLM_MODEL_CONFIG`即可。
+
 ```sh
 LLM_MODEL_CONFIG = {
     "flan-t5-base": os.path.join(MODEL_PATH, "flan-t5-base"),
