@@ -394,15 +394,14 @@ wget https://huggingface.co/GanymedeNil/text2vec-large-chinese/resolve/main/pyto
 ```sh
 cp .env.template .env
 ```
-### 附录 切换模型
+### 附录三 切换模型
 
-切换模型，只需要修改环境变量`.env`文件，但是要注意对应关系。
+切换模型，只需要修改环境变量`.env`文件，但是要注意对应关系。完整的映射配置文件，位于`/pilot/configs/model_config.LLM_MODEL_CONFIG`。使用默认的官方模型，一般不需要调整，如果需要测试微调模型，则需要配置映射关系，否则无法加载模型文件。
 
 比如配置`baichuan-13b`，不能配置`Baichuan-13B-Chat`，否则会出现模型加载异常。
 
-如果需要修改，则配置`/pilot/configs/model_config.LLM_MODEL_CONFIG`即可。
-
 ```sh
+# /pilot/configs/model_config.LLM_MODEL_CONFIG
 LLM_MODEL_CONFIG = {
     "flan-t5-base": os.path.join(MODEL_PATH, "flan-t5-base"),
     "vicuna-13b": os.path.join(MODEL_PATH, "vicuna-13b"),
@@ -447,3 +446,58 @@ LLM_MODEL_CONFIG = {
     "opt-125m": os.path.join(MODEL_PATH, "opt-125m"),
 }
 ```
+### 附录四 模型的微调
+
+- 微调过程
+
+参考：https://github.com/eosphoros-ai/DB-GPT-Hub/blob/main/README.zh.md
+使用`spider`作为训练数据集微调。微调过程按照官方教程操作，没有什么问题。唯一需要注意的是，配置推荐至少4090，数据盘至少65G。否则，会有很多莫名其妙的错误。
+
+- 微调之后的数据
+
+![image](https://github.com/sk142857/opendocs/assets/75599950/877556cf-51c7-4a94-a0d2-e0dd7a19886e)
+
+- 微调日志
+
+```sh
+***** train metrics *****
+  epoch                    =        2.0
+  train_loss               =     0.1772
+  train_runtime            = 3:03:49.19
+  train_samples_per_second =       1.57
+  train_steps_per_second   =      0.392
+10/10/2023 11:11:03 - INFO - dbgpt_hub.llm_base.model_trainer - Saving model checkpoint to dbgpt_hub/output/adapter/baichuan2-13b-qlora
+Figure saved: dbgpt_hub/output/adapter/baichuan2-13b-qlora/training_loss.png
+10/10/2023 11:11:03 - WARNING - dbgpt_hub.llm_base.model_trainer - No metric eval_loss to plot.
+
+wandb: Waiting for W&B process to finish... (success).
+wandb: 
+wandb: Run history:
+wandb:                    train/epoch ▁▁▂▂▃▃▄▄▄▅▅▆▆▇▇▇██
+wandb:              train/global_step ▁▁▂▂▃▃▄▄▄▅▅▆▆▇▇▇██
+wandb:            train/learning_rate ███▇▇▆▆▅▄▄▃▃▂▂▁▁▁
+wandb:                     train/loss █▄▃▃▃▂▂▂▁▁▁▁▁▁▁▁▁
+wandb:               train/total_flos ▁
+wandb:               train/train_loss ▁
+wandb:            train/train_runtime ▁
+wandb: train/train_samples_per_second ▁
+wandb:   train/train_steps_per_second ▁
+wandb: 
+wandb: Run summary:
+wandb:                    train/epoch 2.0
+wandb:              train/global_step 4328
+wandb:            train/learning_rate 0.0
+wandb:                     train/loss 0.1082
+wandb:               train/total_flos 3.503701638567936e+17
+wandb:               train/train_loss 0.17718
+wandb:            train/train_runtime 11029.1931
+wandb: train/train_samples_per_second 1.57
+wandb:   train/train_steps_per_second 0.392
+wandb: 
+wandb: You can sync this run to the cloud by running:
+wandb: wandb sync /root/autodl-tmp/DB-GPT-Hub/wandb/offline-run-20231010_080715-zgrjld6e
+wandb: Find logs at: ./wandb/offline-run-20231010_080715-zgrjld6e/logs
+```
+- 微调模型的使用
+
+具体参考`附录三 切换模型`，注意需要修改配置文件`/pilot/configs/model_config.LLM_MODEL_CONFIG` 和 `.env` 文件。
